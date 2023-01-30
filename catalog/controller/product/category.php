@@ -9,6 +9,18 @@ class ControllerProductCategory extends Controller {
 
 		$this->load->model('tool/image');
 
+		if (isset($this->request->get['filter_price'])) {
+			$filter_price = $this->request->get['filter_price'];
+		} else {
+			$filter_price = '';
+		}
+
+		if (isset($this->request->get['filter_status'])) {
+			$filter_status = $this->request->get['filter_status'];
+		} else {
+			$filter_status = '';
+		}
+
 		if (isset($this->request->get['filter'])) {
 			$filter = $this->request->get['filter'];
 		} else {
@@ -169,6 +181,8 @@ class ControllerProductCategory extends Controller {
 
 			$filter_data = array(
 				'filter_category_id' => $category_id,
+				'filter_price'       => $filter_price,
+				'filter_status'      => $filter_status,
 				'filter_filter'      => $filter,
 				'sort'               => $sort,
 				'order'              => $order,
@@ -211,17 +225,56 @@ class ControllerProductCategory extends Controller {
 					$rating = false;
 				}
 
+				$marks = array();
+				if ($result['reward']) {
+					$marks[] = sprintf($this->language->get('reward'), $result['reward']);
+				}
+				
+				if($special) {
+					$marks[] = sprintf($this->language->get('special'), $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')) - $this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax'))));
+				}
+
+				if($result['discount']) {
+					$marks[] = sprintf($this->language->get('discount'), $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')) - $this->tax->calculate($result['discount'], $result['tax_class_id'], $this->config->get('config_tax'))));
+				}
+
+				$short_descriptions = array();
+				if($result['short_description']) {
+					$result['short_description'] = explode("\r\n", $result['short_description']);
+					foreach($result['short_description'] as $short_description) {
+						$short_descriptions[] = strip_tags(html_entity_decode($short_description, ENT_QUOTES, 'UTF-8'));
+					}
+				}
+
+				if ($result['quantity'] <= 0) {
+					$out_of_stock = true;
+				} else {
+					$out_of_stock = false;
+				}
+
+				if ($result['quantity'] <= 0) {
+					$stock = $result['stock_status'];
+				} elseif ($this->config->get('config_stock_display')) {
+					$stock = $result['quantity'];
+				} else {
+					$stock = $this->language->get('text_instock');
+				}
+
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
 					'name'        => $result['name'],
 					'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('config_product_description_length')) . '..',
+					'short_description' => $short_descriptions,
 					'price'       => $price,
 					'special'     => $special,
+					'stock'		  => $stock,
+					'out_of_stock'=> $out_of_stock,
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $result['rating'],
-					'href'        => $this->url->link('product/product', 'path=' . $this->request->get['path'] . '&product_id=' . $result['product_id'] . $url)
+					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id']),
+					'marks'       => $marks
 				);
 			}
 
@@ -244,18 +297,6 @@ class ControllerProductCategory extends Controller {
 			);
 
 			$data['sorts'][] = array(
-				'text'  => $this->language->get('text_name_asc'),
-				'value' => 'pd.name-ASC',
-				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=pd.name&order=ASC' . $url)
-			);
-
-			$data['sorts'][] = array(
-				'text'  => $this->language->get('text_name_desc'),
-				'value' => 'pd.name-DESC',
-				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=pd.name&order=DESC' . $url)
-			);
-
-			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_price_asc'),
 				'value' => 'p.price-ASC',
 				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=p.price&order=ASC' . $url)
@@ -265,32 +306,6 @@ class ControllerProductCategory extends Controller {
 				'text'  => $this->language->get('text_price_desc'),
 				'value' => 'p.price-DESC',
 				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=p.price&order=DESC' . $url)
-			);
-
-			if ($this->config->get('config_review_status')) {
-				$data['sorts'][] = array(
-					'text'  => $this->language->get('text_rating_desc'),
-					'value' => 'rating-DESC',
-					'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=rating&order=DESC' . $url)
-				);
-
-				$data['sorts'][] = array(
-					'text'  => $this->language->get('text_rating_asc'),
-					'value' => 'rating-ASC',
-					'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=rating&order=ASC' . $url)
-				);
-			}
-
-			$data['sorts'][] = array(
-				'text'  => $this->language->get('text_model_asc'),
-				'value' => 'p.model-ASC',
-				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=p.model&order=ASC' . $url)
-			);
-
-			$data['sorts'][] = array(
-				'text'  => $this->language->get('text_model_desc'),
-				'value' => 'p.model-DESC',
-				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=p.model&order=DESC' . $url)
 			);
 
 			$url = '';
@@ -309,7 +324,7 @@ class ControllerProductCategory extends Controller {
 
 			$data['limits'] = array();
 
-			$limits = array_unique(array($this->config->get('config_product_limit'), 25, 50, 75, 100));
+			$limits = array_unique(array($this->config->get('config_product_limit'), 24, 48, 75, 90));
 
 			sort($limits);
 

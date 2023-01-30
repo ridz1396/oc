@@ -58,9 +58,23 @@
                     </div>
                   </div>
                   <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-short-name<?php echo $language['language_id']; ?>"><?php echo $entry_short_name; ?></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="product_description[<?php echo $language['language_id']; ?>][short_name]" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['short_name'] : ''; ?>" placeholder="<?php echo $entry_short_name; ?>" id="input-short-name<?php echo $language['language_id']; ?>" class="form-control" />
+                      <?php if (isset($error_name[$language['language_id']])) { ?>
+                      <?php } ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-description<?php echo $language['language_id']; ?>"><?php echo $entry_description; ?></label>
                     <div class="col-sm-10">
                       <textarea name="product_description[<?php echo $language['language_id']; ?>][description]" placeholder="<?php echo $entry_description; ?>" id="input-description<?php echo $language['language_id']; ?>"><?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['description'] : ''; ?></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-short-description<?php echo $language['language_id']; ?>"><?php echo $entry_short_description; ?></label>
+                    <div class="col-sm-10">
+                      <textarea name="product_description[<?php echo $language['language_id']; ?>][short_description]" rows="5" placeholder="<?php echo $entry_short_description; ?>" id="input-short-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['short_description'] : ''; ?></textarea>
                     </div>
                   </div>
                   <div class="form-group required">
@@ -157,6 +171,12 @@
                 <label class="col-sm-2 control-label" for="input-price"><?php echo $entry_price; ?></label>
                 <div class="col-sm-10">
                   <input type="text" name="price" value="<?php echo $price; ?>" placeholder="<?php echo $entry_price; ?>" id="input-price" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-regular-price"><?php echo $entry_regular_price; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="regular_price" value="<?php echo $regular_price; ?>" placeholder="<?php echo $entry_regular_price; ?>" id="input-regular-price" class="form-control" />
                 </div>
               </div>
               <div class="form-group">

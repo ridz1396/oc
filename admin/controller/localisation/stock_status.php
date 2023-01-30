@@ -175,6 +175,7 @@ class ControllerLocalisationStockStatus extends Controller {
 			$data['stock_statuses'][] = array(
 				'stock_status_id' => $result['stock_status_id'],
 				'name'            => $result['name'],
+				'schema_url'      => $result['schema_url'],
 				'edit'            => $this->url->link('localisation/stock_status/edit', 'token=' . $this->session->data['token'] . '&stock_status_id=' . $result['stock_status_id'] . $url, 'SSL')
 			);
 		}
@@ -262,6 +263,7 @@ class ControllerLocalisationStockStatus extends Controller {
 		$data['text_form'] = !isset($this->request->get['stock_status_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 
 		$data['entry_name'] = $this->language->get('entry_name');
+		$data['entry_schema_url'] = $this->language->get('entry_schema_url');
 		$data['entry_sort_order'] = $this->language->get('entry_sort_order');
 
 		$data['button_save'] = $this->language->get('button_save');

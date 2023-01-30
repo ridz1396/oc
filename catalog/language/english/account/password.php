@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']  = 'Change Password';
+$_['heading_description']  = 'Please type and confirm to change your current password.';
 
 // Text
 $_['text_account']   = 'Account';

@@ -12,6 +12,12 @@ class ModelCatalogCategory extends Model {
 		return $query->rows;
 	}
 
+	public function getCategoriesBySearch($search) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id) LEFT JOIN " . DB_PREFIX . "category_to_store c2s ON (c.category_id = c2s.category_id) WHERE cd.name LIKE '%" . $search . "%' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "'  AND c.status = '1' ORDER BY c.sort_order, LCASE(cd.name)");
+
+		return $query->rows;
+	}
+
 	public function getCategoryFilters($category_id) {
 		$implode = array();
 
@@ -65,5 +71,58 @@ class ModelCatalogCategory extends Model {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_to_store c2s ON (c.category_id = c2s.category_id) WHERE c.parent_id = '" . (int)$parent_id . "' AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND c.status = '1'");
 
 		return $query->row['total'];
+	}
+
+	public function getCategoryPriceRange($category_id) {
+		$query = $this->db->query("SELECT MIN(p.price) AS 'min', MAX(p.price) AS 'max' FROM " . DB_PREFIX . "product p JOIN " . DB_PREFIX . "product_to_category pc ON p.product_id = pc.product_id WHERE pc.category_id = " . $category_id);
+
+		$result = array();
+		if ($query->num_rows) {
+			$result['min'] = $query->row['min'] ? (int) $query->row['min'] : 0;
+			$result['max'] = $query->row['max'] ? (int) $query->row['max'] : 1;
+		}
+		return $result;
+	}
+
+	public function getStockStatuses($data = array()) {
+		if ($data) {
+			$sql = "SELECT * FROM " . DB_PREFIX . "stock_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+			$sql .= " ORDER BY name";
+
+			if (isset($data['order']) && ($data['order'] == 'DESC')) {
+				$sql .= " DESC";
+			} else {
+				$sql .= " ASC";
+			}
+
+			if (isset($data['start']) || isset($data['limit'])) {
+				if ($data['start'] < 0) {
+					$data['start'] = 0;
+				}
+
+				if ($data['limit'] < 1) {
+					$data['limit'] = 20;
+				}
+
+				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+			}
+
+			$query = $this->db->query($sql);
+
+			return $query->rows;
+		} else {
+			$stock_status_data = $this->cache->get('stock_status.' . (int)$this->config->get('config_language_id'));
+
+			if (!$stock_status_data) {
+				$query = $this->db->query("SELECT stock_status_id, name FROM " . DB_PREFIX . "stock_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");
+
+				$stock_status_data = $query->rows;
+
+				$this->cache->set('stock_status.' . (int)$this->config->get('config_language_id'), $stock_status_data);
+			}
+
+			return $stock_status_data;
+		}
 	}
 }

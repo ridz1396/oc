@@ -12,6 +12,16 @@ class ControllerProductProduct extends Controller {
 			'href' => $this->url->link('common/home')
 		);
 
+		$data['text_share'] = $this->language->get('text_share');
+		$data['text_save'] = $this->language->get('text_save');
+		$data['text_compare'] = $this->language->get('text_compare');
+		$data['text_price'] = $this->language->get('text_price');
+		$data['text_regular_price'] = $this->language->get('text_regular_price');
+		$data['text_no_price'] = $this->language->get('text_no_price');
+		$data['text_short_description'] = $this->language->get('text_short_description');
+		$data['text_product_code'] = $this->language->get('text_product_code');
+		$data['text_view_more'] = $this->language->get('text_view_more');
+
 		$this->load->model('catalog/category');
 
 		if (isset($this->request->get['path'])) {
@@ -217,13 +227,15 @@ class ControllerProductProduct extends Controller {
 			$this->document->setTitle($product_info['meta_title']);
 			$this->document->setDescription($product_info['meta_description']);
 			$this->document->setKeywords($product_info['meta_keyword']);
-			$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
-			$this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
-			$this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
-			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');
-			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
-			$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
+			// $this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
+			// $this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
+			// $this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
+			// $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');
+			// $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
+			// $this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
 
+			$this->document->addScript('catalog/view/javascript/prod/product.min.14.js');
+			
 			$data['heading_title'] = $product_info['name'];
 
 			$data['text_select'] = $this->language->get('text_select');
@@ -270,6 +282,14 @@ class ControllerProductProduct extends Controller {
 			$data['points'] = $product_info['points'];
 
 			if ($product_info['quantity'] <= 0) {
+				$data['stock_schema_url'] = $product_info['stock_status_schema_url'];
+				$data['out_of_stock'] = true;
+			} else {
+				$data['stock_schema_url'] = "http://schema.org/InStock";
+				$data['out_of_stock'] = false;
+			}
+
+			if ($product_info['quantity'] <= 0) {
 				$data['stock'] = $product_info['stock_status'];
 			} elseif ($this->config->get('config_stock_display')) {
 				$data['stock'] = $product_info['quantity'];
@@ -302,11 +322,41 @@ class ControllerProductProduct extends Controller {
 				);
 			}
 
+			if ((float)$product_info['special']) {
+				$data['price_raw'] = $product_info['special'];
+			} else {
+				$data['price_raw'] = $product_info['price'];
+			}
+
+			
+
 			if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
-				$data['price'] = $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')));
+				if((int)$product_info['price'] > 0 && (int)$product_info['quantity'] > 0) {
+					$data['price'] = $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')));
+				} else {
+					$data['price'] = false;
+				}
+
+				if((int)$product_info['regular_price'] > 0 && (int)$product_info['quantity'] > 0) {
+					$data['regular_price'] = $this->currency->format($this->tax->calculate($product_info['regular_price'], $product_info['tax_class_id'], $this->config->get('config_tax')));
+				} else {
+					$data['regular_price'] = false;
+				}
 			} else {
 				$data['price'] = false;
+				$data['regular_price'] = false;
 			}
+
+			if($data['price']) {
+				$data['title_latest_price'] = sprintf($this->language->get('title_latest_price'), $product_info['short_name'] ? $product_info['short_name'] : $product_info['name'], $data['price']);
+				$data['description_latest_price'] = sprintf($this->language->get('description_latest_price'), $product_info['short_name'] ? $product_info['short_name'] : $product_info['name'], $data['price'], $product_info['short_name'] ? $product_info['short_name'] : $product_info['name']);
+			} else {
+				$data['title_latest_price'] = false;
+				$data['description_latest_price'] = false;
+			}
+
+
+			$data['currency'] = $this->currency->getCode();
 
 			if ((float)$product_info['special']) {
 				$data['special'] = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')));
@@ -386,9 +436,18 @@ class ControllerProductProduct extends Controller {
 				$data['customer_name'] = '';
 			}
 
+			$short_descriptions = array();
+			if($product_info['short_description']) {
+				$product_info['short_description'] = explode("\r\n", $product_info['short_description']);
+				foreach($product_info['short_description'] as $short_description) {
+					$short_descriptions[] = strip_tags(html_entity_decode($short_description, ENT_QUOTES, 'UTF-8'));
+				}
+			}
+
 			$data['reviews'] = sprintf($this->language->get('text_reviews'), (int)$product_info['reviews']);
 			$data['rating'] = (int)$product_info['rating'];
 			$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
+			$data['short_descriptions'] = $short_descriptions;
 			$data['attribute_groups'] = $this->model_catalog_product->getProductAttributes($this->request->get['product_id']);
 
 			$data['products'] = array();

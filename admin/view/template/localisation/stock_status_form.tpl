@@ -38,6 +38,16 @@
               <?php } ?>
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label"><?php echo $entry_schema_url; ?></label>
+            <div class="col-sm-10">
+              <?php foreach ($languages as $language) { ?>
+              <div class="input-group"> <span class="input-group-addon"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /></span>
+                <input type="text" name="stock_status[<?php echo $language['language_id']; ?>][schema_url]" value="<?php echo isset($stock_status[$language['language_id']]) ? $stock_status[$language['language_id']]['schema_url'] : ''; ?>" placeholder="<?php echo $entry_schema_url; ?>" class="form-control" />
+              </div>
+              <?php } ?>
+            </div>
+          </div>
         </form>
       </div>
     </div>

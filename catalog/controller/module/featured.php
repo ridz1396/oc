@@ -3,7 +3,8 @@ class ControllerModuleFeatured extends Controller {
 	public function index($setting) {
 		$this->load->language('module/featured');
 
-		$data['heading_title'] = $this->language->get('heading_title');
+		$data['heading_title'] = $setting['name'];
+		$data['heading_description'] = $setting['description'];
 
 		$data['text_tax'] = $this->language->get('text_tax');
 
@@ -58,6 +59,19 @@ class ControllerModuleFeatured extends Controller {
 						$rating = false;
 					}
 
+					$marks = array();
+					if ($product_info['reward']) {
+						$marks[] = sprintf($this->language->get('reward'), $product_info['reward']);
+					}
+					
+					if($special) {
+						$marks[] = sprintf($this->language->get('special'), $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')) - $this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax'))));
+					}
+
+					if($product_info['discount']) {
+						$marks[] = sprintf($this->language->get('discount'), $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')) - $this->tax->calculate($product_info['discount'], $product_info['tax_class_id'], $this->config->get('config_tax'))));
+					}
+
 					$data['products'][] = array(
 						'product_id'  => $product_info['product_id'],
 						'thumb'       => $image,
@@ -65,6 +79,7 @@ class ControllerModuleFeatured extends Controller {
 						'description' => utf8_substr(strip_tags(html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('config_product_description_length')) . '..',
 						'price'       => $price,
 						'special'     => $special,
+						'marks'		  => $marks,
 						'tax'         => $tax,
 						'rating'      => $rating,
 						'href'        => $this->url->link('product/product', 'product_id=' . $product_info['product_id'])

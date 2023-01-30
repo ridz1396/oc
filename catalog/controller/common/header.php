@@ -96,12 +96,30 @@ class ControllerCommonHeader extends Controller {
 
 		foreach ($categories as $category) {
 			if ($category['top']) {
+				
 				// Level 2
 				$children_data = array();
-
+				
 				$children = $this->model_catalog_category->getCategories($category['category_id']);
-
+				
 				foreach ($children as $child) {
+					// Level 3
+					$grandchildren_data = array();
+	
+					$grandchildren = $this->model_catalog_category->getCategories($child['category_id']);
+	
+					foreach ($grandchildren as $grandchild) {
+						$filter_data = array(
+							'filter_category_id'  => $grandchild['category_id'],
+							'filter_sub_category' => true
+						);
+	
+						$grandchildren_data[] = array(
+							'name'  => $grandchild['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+							'href'  => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'] . '_' . $grandchild['category_id'])
+						);
+					}
+
 					$filter_data = array(
 						'filter_category_id'  => $child['category_id'],
 						'filter_sub_category' => true
@@ -109,6 +127,8 @@ class ControllerCommonHeader extends Controller {
 
 					$children_data[] = array(
 						'name'  => $child['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+						'children' => $grandchildren_data,
+						'column'   => $child['column'] ? $child['column'] : 1,
 						'href'  => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])
 					);
 				}

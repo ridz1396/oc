@@ -7,6 +7,8 @@ class ControllerModuleFilter extends Controller {
 			$parts = array();
 		}
 
+		$this->document->addScript('catalog/view/javascript/prod/listing.min.6.js');
+
 		$category_id = end($parts);
 
 		$this->load->model('catalog/category');
@@ -19,6 +21,7 @@ class ControllerModuleFilter extends Controller {
 			$data['heading_title'] = $this->language->get('heading_title');
 
 			$data['button_filter'] = $this->language->get('button_filter');
+			$data['price_filter_title'] = $this->language->get('price_filter_title');
 
 			$url = '';
 
@@ -42,40 +45,56 @@ class ControllerModuleFilter extends Controller {
 				$data['filter_category'] = array();
 			}
 
+			if (isset($this->request->get['filter_status'])) {
+				$data['filter_availability'] = explode(',', $this->request->get['filter_status']);
+			} else {
+				$data['filter_availability'] = array();
+			}
+
 			$this->load->model('catalog/product');
 
 			$data['filter_groups'] = array();
 
 			$filter_groups = $this->model_catalog_category->getCategoryFilters($category_id);
 
-			if ($filter_groups) {
-				foreach ($filter_groups as $filter_group) {
-					$childen_data = array();
+			$data['price_range'] = $this->model_catalog_category->getCategoryPriceRange($category_id);
+			$data['filter_statuses'] = $this->model_catalog_category->getStockStatuses();
 
-					foreach ($filter_group['filter'] as $filter) {
-						$filter_data = array(
-							'filter_category_id' => $category_id,
-							'filter_filter'      => $filter['filter_id']
-						);
+			if(isset($this->request->get['filter_price'])) {
+				$filter_price = explode("-", $this->request->get['filter_price']);
+				$data['price_range']['from'] = (int) $filter_price[0];
+				$data['price_range']['to'] = (int) $filter_price[1];
+			} else {
+				$data['price_range']['from'] = $data['price_range']['min'];
+				$data['price_range']['to'] = $data['price_range']['max'];
+			}
 
-						$childen_data[] = array(
-							'filter_id' => $filter['filter_id'],
-							'name'      => $filter['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : '')
-						);
-					}
+			foreach ($filter_groups as $filter_group) {
+				$childen_data = array();
 
-					$data['filter_groups'][] = array(
-						'filter_group_id' => $filter_group['filter_group_id'],
-						'name'            => $filter_group['name'],
-						'filter'          => $childen_data
+				foreach ($filter_group['filter'] as $filter) {
+					$filter_data = array(
+						'filter_category_id' => $category_id,
+						'filter_filter'      => $filter['filter_id']
+					);
+
+					$childen_data[] = array(
+						'filter_id' => $filter['filter_id'],
+						'name'      => $filter['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : '')
 					);
 				}
 
-				if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/filter.tpl')) {
-					return $this->load->view($this->config->get('config_template') . '/template/module/filter.tpl', $data);
-				} else {
-					return $this->load->view('default/template/module/filter.tpl', $data);
-				}
+				$data['filter_groups'][] = array(
+					'filter_group_id' => $filter_group['filter_group_id'],
+					'name'            => $filter_group['name'],
+					'filter'          => $childen_data
+				);
+			}
+
+			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/filter.tpl')) {
+				return $this->load->view($this->config->get('config_template') . '/template/module/filter.tpl', $data);
+			} else {
+				return $this->load->view('default/template/module/filter.tpl', $data);
 			}
 		}
 	}

@@ -51,6 +51,7 @@ class ControllerAccountPassword extends Controller {
 		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
+		$data['heading_description'] = $this->language->get('heading_description');
 
 		$data['text_password'] = $this->language->get('text_password');
 

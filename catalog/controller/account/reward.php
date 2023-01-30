@@ -83,6 +83,7 @@ class ControllerAccountReward extends Controller {
 		$data['total'] = (int)$this->customer->getRewardPoints();
 
 		$data['continue'] = $this->url->link('account/account', '', 'SSL');
+		$data['back'] = $this->url->link('account/account', '', 'SSL');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');

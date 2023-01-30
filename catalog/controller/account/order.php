@@ -40,6 +40,8 @@ class ControllerAccountOrder extends Controller {
 
 		$data['text_empty'] = $this->language->get('text_empty');
 
+		$data['back'] = $this->url->link('account/account', '', 'SSL');
+
 		$data['column_order_id'] = $this->language->get('column_order_id');
 		$data['column_status'] = $this->language->get('column_status');
 		$data['column_date_added'] = $this->language->get('column_date_added');

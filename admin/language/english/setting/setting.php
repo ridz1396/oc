@@ -24,12 +24,15 @@ $_['text_google_captcha']              = 'Google reCAPTCHA';
 
 // Entry
 $_['entry_name']                       = 'Store Name';
+$_['entry_short_name']                 = 'Store Short Name';
 $_['entry_owner']                      = 'Store Owner';
 $_['entry_address']                    = 'Address';
 $_['entry_geocode']                    = 'Geocode';
 $_['entry_email']                      = 'E-Mail';
 $_['entry_telephone']                  = 'Telephone';
 $_['entry_fax']                        = 'Fax';
+$_['entry_support']                    = 'Online Service Support URL';
+$_['entry_complain']                   = 'Complain / Advice Submission URL';
 $_['entry_image']                      = 'Image';
 $_['entry_open']                       = 'Opening Times';
 $_['entry_comment']                    = 'Comment';
@@ -130,6 +133,14 @@ $_['entry_error_filename']             = 'Error Log Filename';
 $_['entry_google_analytics']           = 'Google Analytics Code';
 $_['entry_google_captcha_public']      = 'Site key';
 $_['entry_google_captcha_secret']      = 'Secret key';
+$_['entry_social_facebook']            = 'Facebook Page URL';
+$_['entry_social_twitter']             = 'Twitter Account URL';
+$_['entry_social_instagram']           = 'Instagram Account URL';
+$_['entry_social_youtube']             = 'YouTube Channel URL';
+$_['entry_social_linkedin']            = 'LinkedIn URL';
+$_['entry_social_pinterest']           = 'Pinterest Profile URL';
+$_['entry_apps_android']               = 'Play Store URL';
+$_['entry_apps_ios']                   = 'App Store URL';
 $_['entry_status']                     = 'Status';
 
 // Help
@@ -200,6 +211,7 @@ $_['help_google_captcha']              = 'Go to <a href="https://www.google.com/
 $_['error_warning']                    = 'Warning: Please check the form carefully for errors!';
 $_['error_permission']                 = 'Warning: You do not have permission to modify settings!';
 $_['error_name']                       = 'Store Name must be between 3 and 32 characters!';
+$_['error_short_name']                 = 'Store Short Name must be between 3 and 32 characters!';
 $_['error_owner']                      = 'Store Owner must be between 3 and 64 characters!';
 $_['error_address']                    = 'Store Address must be between 10 and 256 characters!';
 $_['error_email']                      = 'E-Mail Address does not appear to be valid!';

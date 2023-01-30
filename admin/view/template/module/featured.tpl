@@ -33,6 +33,12 @@
               <div class="text-danger"><?php echo $error_name; ?></div>
               <?php } ?>
             </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-description"><?php echo $entry_description; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="description" value="<?php echo $description; ?>" placeholder="<?php echo $entry_description; ?>" id="input-description" class="form-control" />
+            </div>
           </div>          
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-product"><?php echo $entry_product; ?></label>

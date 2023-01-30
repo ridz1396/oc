@@ -136,6 +136,24 @@ class ModelAccountCustomer extends Model {
 		return $query->row;
 	}
 
+	public function getCustomerByUsername($username) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE LOWER(email) = '" . $this->db->escape(utf8_strtolower($username)) . "' OR telephone = '" . $username . "'");
+
+		return $query->row;
+	}
+
+	public function getCustomerEmailByUsername($username) {
+		$query = $this->db->query("SELECT email FROM " . DB_PREFIX . "customer WHERE LOWER(email) = '" . $this->db->escape(utf8_strtolower($username)) . "' OR telephone = '" . $username . "'");
+
+		return $query->row['email'];
+	}
+
+	public function getTotalCustomersByTelephone($telephone) {
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE telephone = '" . $this->db->escape($telephone) . "'");
+
+		return $query->row['total'];
+	}
+
 	public function getCustomerByToken($token) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE token = '" . $this->db->escape($token) . "' AND token != ''");
 
@@ -146,6 +164,12 @@ class ModelAccountCustomer extends Model {
 
 	public function getTotalCustomersByEmail($email) {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE LOWER(email) = '" . $this->db->escape(utf8_strtolower($email)) . "'");
+
+		return $query->row['total'];
+	}
+
+	public function getTotalCustomersByUsername($username) {
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE LOWER(email) = '" . $this->db->escape(utf8_strtolower($username)) . "' OR telephone = '" . $username . "'");
 
 		return $query->row['total'];
 	}

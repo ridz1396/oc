@@ -49,12 +49,15 @@ class ControllerSettingSetting extends Controller {
 		$data['text_google_captcha'] = $this->language->get('text_google_captcha');
 
 		$data['entry_name'] = $this->language->get('entry_name');
+		$data['entry_short_name'] = $this->language->get('entry_short_name');
 		$data['entry_owner'] = $this->language->get('entry_owner');
 		$data['entry_address'] = $this->language->get('entry_address');
 		$data['entry_geocode'] = $this->language->get('entry_geocode');
 		$data['entry_email'] = $this->language->get('entry_email');
 		$data['entry_telephone'] = $this->language->get('entry_telephone');
 		$data['entry_fax'] = $this->language->get('entry_fax');
+		$data['entry_support'] = $this->language->get('entry_support');
+		$data['entry_complain'] = $this->language->get('entry_complain');
 		$data['entry_image'] = $this->language->get('entry_image');
 		$data['entry_open'] = $this->language->get('entry_open');
 		$data['entry_comment'] = $this->language->get('entry_comment');
@@ -155,6 +158,14 @@ class ControllerSettingSetting extends Controller {
 		$data['entry_google_analytics'] = $this->language->get('entry_google_analytics');
 		$data['entry_google_captcha_public'] = $this->language->get('entry_google_captcha_public');
 		$data['entry_google_captcha_secret'] = $this->language->get('entry_google_captcha_secret');
+		$data['entry_social_facebook'] = $this->language->get('entry_social_facebook');
+		$data['entry_social_twitter'] = $this->language->get('entry_social_twitter');
+		$data['entry_social_instagram'] = $this->language->get('entry_social_instagram');
+		$data['entry_social_youtube'] = $this->language->get('entry_social_youtube');
+		$data['entry_social_linkedin'] = $this->language->get('entry_social_linkedin');
+		$data['entry_social_pinterest'] = $this->language->get('entry_social_pinterest');
+		$data['entry_apps_android'] = $this->language->get('entry_apps_android');
+		$data['entry_apps_ios'] = $this->language->get('entry_apps_ios');
 		$data['entry_status'] = $this->language->get('entry_status');
 
 		$data['help_geocode'] = $this->language->get('help_geocode');
@@ -233,6 +244,7 @@ class ControllerSettingSetting extends Controller {
 		$data['tab_mail'] = $this->language->get('tab_mail');
 		$data['tab_server'] = $this->language->get('tab_server');
 		$data['tab_google'] = $this->language->get('tab_google');
+		$data['tab_social'] = $this->language->get('tab_social');
 
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
@@ -244,6 +256,12 @@ class ControllerSettingSetting extends Controller {
 			$data['error_name'] = $this->error['name'];
 		} else {
 			$data['error_name'] = '';
+		}
+
+		if (isset($this->error['short_name'])) {
+			$data['error_short_name'] = $this->error['short_name'];
+		} else {
+			$data['error_short_name'] = '';
 		}
 
 		if (isset($this->error['owner'])) {
@@ -475,6 +493,12 @@ class ControllerSettingSetting extends Controller {
 			$data['config_name'] = $this->config->get('config_name');
 		}
 
+		if (isset($this->request->post['config_short_name'])) {
+			$data['config_short_name'] = $this->request->post['config_short_name'];
+		} else {
+			$data['config_short_name'] = $this->config->get('config_short_name');
+		}
+
 		if (isset($this->request->post['config_owner'])) {
 			$data['config_owner'] = $this->request->post['config_owner'];
 		} else {
@@ -509,6 +533,18 @@ class ControllerSettingSetting extends Controller {
 			$data['config_fax'] = $this->request->post['config_fax'];
 		} else {
 			$data['config_fax'] = $this->config->get('config_fax');
+		}
+
+		if (isset($this->request->post['config_support'])) {
+			$data['config_support'] = $this->request->post['config_support'];
+		} else {
+			$data['config_support'] = $this->config->get('config_support');
+		}
+
+		if (isset($this->request->post['config_complain'])) {
+			$data['config_complain'] = $this->request->post['config_complain'];
+		} else {
+			$data['config_complain'] = $this->config->get('config_complain');
 		}
 
 		if (isset($this->request->post['config_image'])) {
@@ -1285,6 +1321,54 @@ class ControllerSettingSetting extends Controller {
 			$data['config_google_captcha_status'] = $this->config->get('config_google_captcha_status');
 		}
 
+		if (isset($this->request->post['config_social_facebook'])) {
+			$data['config_social_facebook'] = $this->request->post['config_social_facebook'];
+		} else {
+			$data['config_social_facebook'] = $this->config->get('config_social_facebook');
+		}
+
+		if (isset($this->request->post['config_social_twitter'])) {
+			$data['config_social_twitter'] = $this->request->post['config_social_twitter'];
+		} else {
+			$data['config_social_twitter'] = $this->config->get('config_social_twitter');
+		}
+
+		if (isset($this->request->post['config_social_instagram'])) {
+			$data['config_social_instagram'] = $this->request->post['config_social_instagram'];
+		} else {
+			$data['config_social_instagram'] = $this->config->get('config_social_instagram');
+		}
+
+		if (isset($this->request->post['config_social_youtube'])) {
+			$data['config_social_youtube'] = $this->request->post['config_social_youtube'];
+		} else {
+			$data['config_social_youtube'] = $this->config->get('config_social_youtube');
+		}
+
+		if (isset($this->request->post['config_social_linkedin'])) {
+			$data['config_social_linkedin'] = $this->request->post['config_social_linkedin'];
+		} else {
+			$data['config_social_linkedin'] = $this->config->get('config_social_linkedin');
+		}
+
+		if (isset($this->request->post['config_social_pinterest'])) {
+			$data['config_social_pinterest'] = $this->request->post['config_social_pinterest'];
+		} else {
+			$data['config_social_pinterest'] = $this->config->get('config_social_pinterest');
+		}
+
+		if (isset($this->request->post['config_apps_android'])) {
+			$data['config_apps_android'] = $this->request->post['config_apps_android'];
+		} else {
+			$data['config_apps_android'] = $this->config->get('config_apps_android');
+		}
+
+		if (isset($this->request->post['config_apps_ios'])) {
+			$data['config_apps_ios'] = $this->request->post['config_apps_ios'];
+		} else {
+			$data['config_apps_ios'] = $this->config->get('config_apps_ios');
+		}
+
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
@@ -1299,6 +1383,10 @@ class ControllerSettingSetting extends Controller {
 
 		if (!$this->request->post['config_name']) {
 			$this->error['name'] = $this->language->get('error_name');
+		}
+
+		if (!$this->request->post['config_short_name']) {
+			$this->error['short_name'] = $this->language->get('error_short_name');
 		}
 
 		if ((utf8_strlen($this->request->post['config_owner']) < 3) || (utf8_strlen($this->request->post['config_owner']) > 64)) {

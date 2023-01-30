@@ -40,6 +40,7 @@
             <li><a href="#tab-mail" data-toggle="tab"><?php echo $tab_mail; ?></a></li>
             <li><a href="#tab-server" data-toggle="tab"><?php echo $tab_server; ?></a></li>
             <li><a href="#tab-google" data-toggle="tab"><?php echo $tab_google; ?></a></li>
+            <li><a href="#tab-social" data-toggle="tab"><?php echo $tab_social; ?></a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab-general">
@@ -49,6 +50,15 @@
                   <input type="text" name="config_name" value="<?php echo $config_name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
                   <?php if ($error_name) { ?>
                   <div class="text-danger"><?php echo $error_name; ?></div>
+                  <?php } ?>
+                </div>
+              </div>
+              <div class="form-group required">
+                <label class="col-sm-2 control-label" for="input-short-name"><?php echo $entry_short_name; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_short_name" value="<?php echo $config_short_name; ?>" placeholder="<?php echo $entry_short_name; ?>" id="input-short-name" class="form-control" />
+                  <?php if ($error_short_name) { ?>
+                  <div class="text-danger"><?php echo $error_short_name; ?></div>
                   <?php } ?>
                 </div>
               </div>
@@ -116,6 +126,18 @@
                 <label class="col-sm-2 control-label" for="input-comment"><span data-toggle="tooltip" data-container="#tab-general" title="<?php echo $help_comment; ?>"><?php echo $entry_comment; ?></span></label>
                 <div class="col-sm-10">
                   <textarea name="config_comment" rows="5" placeholder="<?php echo $entry_comment; ?>" id="input-comment" class="form-control"><?php echo $config_comment; ?></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-support"><?php echo $entry_support; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_support" value="<?php echo $config_support; ?>" placeholder="<?php echo $entry_support; ?>" id="input-support" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-complain"><?php echo $entry_complain; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_complain" value="<?php echo $config_complain; ?>" placeholder="<?php echo $entry_complain; ?>" id="input-complain" class="form-control" />
                 </div>
               </div>
               <?php if ($locations) { ?>
@@ -1581,6 +1603,57 @@
                   </div>
                 </div>
               </fieldset>
+            </div>
+            
+            <div class="tab-pane" id="tab-social">
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-social-facebook"><?php echo $entry_social_facebook; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_social_facebook" value="<?php echo $config_social_facebook; ?>" placeholder="<?php echo $entry_social_facebook; ?>" id="input-social-facebook" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-social-twitter"><?php echo $entry_social_twitter; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_social_twitter" value="<?php echo $config_social_twitter; ?>" placeholder="<?php echo $entry_social_twitter; ?>" id="input-social-twitter" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-social-instagram"><?php echo $entry_social_instagram; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_social_instagram" value="<?php echo $config_social_instagram; ?>" placeholder="<?php echo $entry_social_instagram; ?>" id="input-social-instagram" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-social-youtube"><?php echo $entry_social_youtube; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_social_youtube" value="<?php echo $config_social_youtube; ?>" placeholder="<?php echo $entry_social_youtube; ?>" id="input-social-youtube" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-social-linkedin"><?php echo $entry_social_linkedin; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_social_linkedin" value="<?php echo $config_social_linkedin; ?>" placeholder="<?php echo $entry_social_linkedin; ?>" id="input-social-linkedin" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-social-pinterest"><?php echo $entry_social_pinterest; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_social_pinterest" value="<?php echo $config_social_pinterest; ?>" placeholder="<?php echo $entry_social_pinterest; ?>" id="input-social-pinterest" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-apps-android"><?php echo $entry_apps_android; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_apps_android" value="<?php echo $config_apps_android; ?>" placeholder="<?php echo $entry_apps_android; ?>" id="input-apps-android" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-apps-ios"><?php echo $entry_apps_ios; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_apps_ios" value="<?php echo $config_apps_ios; ?>" placeholder="<?php echo $entry_apps_ios; ?>" id="input-apps-ios" class="form-control" />
+                </div>
+              </div>
             </div>
           </div>
         </form>

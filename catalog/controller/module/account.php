@@ -5,6 +5,7 @@ class ControllerModuleAccount extends Controller {
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
+		$data['text_hello'] = $this->language->get('text_hello');
 		$data['text_register'] = $this->language->get('text_register');
 		$data['text_login'] = $this->language->get('text_login');
 		$data['text_logout'] = $this->language->get('text_logout');
@@ -21,8 +22,11 @@ class ControllerModuleAccount extends Controller {
 		$data['text_transaction'] = $this->language->get('text_transaction');
 		$data['text_newsletter'] = $this->language->get('text_newsletter');
 		$data['text_recurring'] = $this->language->get('text_recurring');
+		$data['text_pc'] = $this->language->get('text_pc');
 
 		$data['logged'] = $this->customer->isLogged();
+		$data['user'] = $this->customer->getFirstName() . ' ' . $this->customer->getLastName();
+		$data['email'] = $this->customer->getEmail();
 		$data['register'] = $this->url->link('account/register', '', 'SSL');
 		$data['login'] = $this->url->link('account/login', '', 'SSL');
 		$data['logout'] = $this->url->link('account/logout', '', 'SSL');
@@ -39,6 +43,10 @@ class ControllerModuleAccount extends Controller {
 		$data['transaction'] = $this->url->link('account/transaction', '', 'SSL');
 		$data['newsletter'] = $this->url->link('account/newsletter', '', 'SSL');
 		$data['recurring'] = $this->url->link('account/recurring', '', 'SSL');
+		$data['pc'] = $this->url->link('account/pc', '', 'SSL');
+
+		$data['total_reward'] = (int)$this->customer->getRewardPoints();
+		$data['total_transaction'] = (int)$this->customer->getBalance();
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/account.tpl')) {
 			return $this->load->view($this->config->get('config_template') . '/template/module/account.tpl', $data);

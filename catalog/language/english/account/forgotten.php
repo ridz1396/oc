@@ -10,7 +10,8 @@ $_['text_email']      = 'Enter the e-mail address associated with your account. 
 $_['text_success']    = 'Success: A new password has been sent to your e-mail address.';
 
 // Entry
-$_['entry_email']     = 'E-Mail Address';
+$_['entry_email']     = 'Enter Your Phone / E-Mail';
 
 // Error
 $_['error_email']     = 'Warning: The E-Mail Address was not found in our records, please try again!';
+$_['error_username']  = 'Warning: The Phone / E-Mail was not found in our records, please try again!';

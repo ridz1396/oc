@@ -14,6 +14,7 @@ $_['column_action']    = 'Action';
 
 // Entry
 $_['entry_name']       = 'Stock Status Name';
+$_['entry_schema_url'] = 'Stock Status Schema URL';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify stock statuses!';

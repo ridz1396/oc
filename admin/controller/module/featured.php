@@ -28,6 +28,7 @@ class ControllerModuleFeatured extends Controller {
 		$data['text_disabled'] = $this->language->get('text_disabled');
 
 		$data['entry_name'] = $this->language->get('entry_name');
+		$data['entry_description'] = $this->language->get('entry_description');
 		$data['entry_product'] = $this->language->get('entry_product');
 		$data['entry_limit'] = $this->language->get('entry_limit');
 		$data['entry_width'] = $this->language->get('entry_width');
@@ -107,6 +108,14 @@ class ControllerModuleFeatured extends Controller {
 			$data['name'] = $module_info['name'];
 		} else {
 			$data['name'] = '';
+		}
+
+		if (isset($this->request->post['description'])) {
+			$data['description'] = $this->request->post['description'];
+		} elseif (!empty($module_info)) {
+			$data['description'] = $module_info['description'];
+		} else {
+			$data['description'] = '';
 		}
 
 		$this->load->model('catalog/product');

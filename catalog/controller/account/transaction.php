@@ -81,6 +81,7 @@ class ControllerAccountTransaction extends Controller {
 		$data['total'] = $this->currency->format($this->customer->getBalance());
 
 		$data['continue'] = $this->url->link('account/account', '', 'SSL');
+		$data['back'] = $this->url->link('account/account', '', 'SSL');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');

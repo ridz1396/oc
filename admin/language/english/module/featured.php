@@ -9,6 +9,7 @@ $_['text_edit']        = 'Edit Featured Module';
 
 // Entry
 $_['entry_name']       = 'Module Name';
+$_['entry_description']= 'Description';
 $_['entry_product']    = 'Products';
 $_['entry_limit']      = 'Limit';
 $_['entry_width']      = 'Width';

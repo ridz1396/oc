@@ -17,6 +17,13 @@
       <li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>
       <li><a href="<?php echo $review; ?>"><?php echo $text_review; ?></a></li>
       <li><a href="<?php echo $information; ?>"><?php echo $text_information; ?></a></li>
+      <li><a class="parent"><?php echo $text_blog; ?></a>
+        <ul>
+          <li><a href="<?php echo $blog_category; ?>"><?php echo $text_blog_category; ?></a></li>
+          <li><a href="<?php echo $blog_post; ?>"><?php echo $text_blog_post; ?></a></li>
+          <li><a href="<?php echo $blog_comment; ?>"><?php echo $text_blog_comment; ?></a></li>
+        </ul>            
+      </li>
     </ul>
   </li>
   <li id="extension"><a class="parent"><i class="fa fa-puzzle-piece fa-fw"></i> <span><?php echo $text_extension; ?></span></a>

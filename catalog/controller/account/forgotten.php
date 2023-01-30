@@ -18,6 +18,8 @@ class ControllerAccountForgotten extends Controller {
 
 			$password = substr(sha1(uniqid(mt_rand(), true)), 0, 10);
 
+			$this->request->post['email'] = $this->model_account_customer->getCustomerEmailByUsername($this->request->post['username']);
+
 			$this->model_account_customer->editPassword($this->request->post['email'], $password);
 
 			$subject = sprintf($this->language->get('text_subject'), html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
@@ -113,10 +115,10 @@ class ControllerAccountForgotten extends Controller {
 	}
 
 	protected function validate() {
-		if (!isset($this->request->post['email'])) {
-			$this->error['warning'] = $this->language->get('error_email');
-		} elseif (!$this->model_account_customer->getTotalCustomersByEmail($this->request->post['email'])) {
-			$this->error['warning'] = $this->language->get('error_email');
+		if (!isset($this->request->post['username'])) {
+			$this->error['warning'] = $this->language->get('error_username');
+		} elseif (!$this->model_account_customer->getTotalCustomersByUsername($this->request->post['email'])) {
+			$this->error['warning'] = $this->language->get('error_username');
 		}
 
 		return !$this->error;

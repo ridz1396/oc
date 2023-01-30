@@ -2,11 +2,11 @@
 // Text
 $_['text_search']              = 'Search';
 $_['text_brand']               = 'Brand';
-$_['text_manufacturer']        = 'Brand:';
-$_['text_model']               = 'Product Code:';
+$_['text_manufacturer']        = 'Brand';
+$_['text_model']               = 'Model:';
 $_['text_reward']              = 'Reward Points:';
 $_['text_points']              = 'Price in reward points:';
-$_['text_stock']               = 'Availability:';
+$_['text_stock']               = 'Status';
 $_['text_instock']             = 'In Stock';
 $_['text_tax']                 = 'Ex Tax:';
 $_['text_discount']            = ' or more ';
@@ -30,6 +30,15 @@ $_['text_week']                = 'week';
 $_['text_semi_month']          = 'half-month';
 $_['text_month']               = 'month';
 $_['text_year']                = 'year';
+$_['text_share']               = 'Share:';
+$_['text_save']                = 'Save';
+$_['text_compare']             = 'Add to Compare';
+$_['text_no_price']            = 'To be announced';
+$_['text_price']               = 'Price';
+$_['text_regular_price']       = 'Regular Price';
+$_['text_short_description']   = 'Key Features';
+$_['text_product_code']        = 'Product Code';
+$_['text_view_more']           = 'View More Info';
 
 // Entry
 $_['entry_qty']                = 'Qty';
@@ -49,3 +58,7 @@ $_['error_name']               = 'Warning: Review Name must be between 3 and 25 
 $_['error_text']               = 'Warning: Review Text must be between 25 and 1000 characters!';
 $_['error_rating']             = 'Warning: Please select a review rating!';
 $_['error_captcha']            = 'Warning: Verification code does not match the image!';
+
+// Latest Price
+$_['title_latest_price']       = 'What is the price of %s in Bangladesh?';
+$_['description_latest_price'] = 'The latest price of %s in Bangladesh is %s. You can buy the %s at best price from our website or visit any of our showrooms.';

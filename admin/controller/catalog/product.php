@@ -392,6 +392,7 @@ class ControllerCatalogProduct extends Controller {
 		$data['column_action'] = $this->language->get('column_action');
 
 		$data['entry_name'] = $this->language->get('entry_name');
+		$data['entry_short_name'] = $this->language->get('entry_short_name');
 		$data['entry_model'] = $this->language->get('entry_model');
 		$data['entry_price'] = $this->language->get('entry_price');
 		$data['entry_quantity'] = $this->language->get('entry_quantity');
@@ -539,7 +540,9 @@ class ControllerCatalogProduct extends Controller {
 		$data['text_amount'] = $this->language->get('text_amount');
 
 		$data['entry_name'] = $this->language->get('entry_name');
+		$data['entry_short_name'] = $this->language->get('entry_short_name');
 		$data['entry_description'] = $this->language->get('entry_description');
+		$data['entry_short_description'] = $this->language->get('entry_short_description');
 		$data['entry_meta_title'] = $this->language->get('entry_meta_title');
 		$data['entry_meta_description'] = $this->language->get('entry_meta_description');
 		$data['entry_meta_keyword'] = $this->language->get('entry_meta_keyword');
@@ -558,6 +561,7 @@ class ControllerCatalogProduct extends Controller {
 		$data['entry_quantity'] = $this->language->get('entry_quantity');
 		$data['entry_stock_status'] = $this->language->get('entry_stock_status');
 		$data['entry_price'] = $this->language->get('entry_price');
+		$data['entry_regular_price'] = $this->language->get('entry_regular_price');
 		$data['entry_tax_class'] = $this->language->get('entry_tax_class');
 		$data['entry_points'] = $this->language->get('entry_points');
 		$data['entry_option_points'] = $this->language->get('entry_option_points');
@@ -859,6 +863,14 @@ class ControllerCatalogProduct extends Controller {
 			$data['price'] = $product_info['price'];
 		} else {
 			$data['price'] = '';
+		}
+
+		if (isset($this->request->post['regular_price'])) {
+			$data['regular_price'] = $this->request->post['regular_price'];
+		} elseif (!empty($product_info)) {
+			$data['regular_price'] = $product_info['regular_price'];
+		} else {
+			$data['regular_price'] = '';
 		}
 
 		$this->load->model('catalog/recurring');

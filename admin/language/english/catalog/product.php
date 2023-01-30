@@ -26,7 +26,9 @@ $_['column_action']          = 'Action';
 
 // Entry
 $_['entry_name']             = 'Product Name';
+$_['entry_short_name']       = 'Product Short Name';
 $_['entry_description']      = 'Description';
+$_['entry_short_description']= 'Short Description';
 $_['entry_meta_title'] 	     = 'Meta Tag Title';
 $_['entry_meta_keyword'] 	 = 'Meta Tag Keywords';
 $_['entry_meta_description'] = 'Meta Tag Description';
@@ -47,6 +49,7 @@ $_['entry_quantity']         = 'Quantity';
 $_['entry_minimum']          = 'Minimum Quantity';
 $_['entry_stock_status']     = 'Out Of Stock Status';
 $_['entry_price']            = 'Price';
+$_['entry_regular_price']    = 'Regular Price';
 $_['entry_tax_class']        = 'Tax Class';
 $_['entry_points']           = 'Points';
 $_['entry_option_points']    = 'Points';
